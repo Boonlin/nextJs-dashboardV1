@@ -1,11 +1,10 @@
-
 'use service'
 import React from 'react'
 import SideNav from '../ui/dashboard/sidenav'
 
 export default function LayoutDashboard({children}: {children:React.ReactNode}) {
   return (
-    <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
+    <div className="flex h-screen flex-col md:flex-row md:overflow-hidden bg-gray-200">
       <div className="w-full flex-none md:w-64">
         <SideNav />
       </div>
