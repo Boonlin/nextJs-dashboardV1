@@ -1,6 +1,6 @@
 'use client';
  
-import { Router } from 'next/router';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
  
 export default function Error({
@@ -14,7 +14,7 @@ export default function Error({
     // Optionally log the error to an error reporting service
     console.error(error);
   }, [error]);
- 
+  const router = useRouter();
   return (
     <main className="flex h-full flex-col items-center justify-center">
       <h2 className="text-center">Something went wrong!</h2>
@@ -27,8 +27,8 @@ export default function Error({
       >
         Try again
       </button>
-      <button type="button" onClick={() =>Router.back()}>
-      Click here to go back
+      <button type="button" onClick={() => router.back()}>
+      Go Back
     </button>
     </main>
   );
