@@ -3,6 +3,7 @@ import {
   UserGroupIcon,
   HomeIcon,
   DocumentDuplicateIcon,
+  QrCodeIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -18,7 +19,7 @@ const links = [
     icon: DocumentDuplicateIcon,
   },
   { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
-  { name: 'AddCustomers', href: '/dashboard/addCustomer', icon: UserPlusIcon },
+  { name: 'qRCode', href: '/dashboard/qrcode', icon: QrCodeIcon },
 
 ];
  

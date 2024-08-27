@@ -1,22 +1,16 @@
-import Image from 'next/image';
-import { lusitana } from '@/app/ui/fonts';
-import Search from '@/app/ui/search';
-import {
-  CustomersTableType,
-  FormattedCustomersTable,
-} from '@/app/lib/definitions';
+import Image from "next/image";
+import { CustomerDetails, DeleteCustomer, UpdateCustomer } from "./button";
+import ep from "@/public/hero-mobile.png";
+import { fetchFilteredCustomers } from "@/app/lib/data";
 
-export default async function CustomersTable({
-  customers,
-}: {
-  customers: FormattedCustomersTable[];
-}) {
+export default async function CustomersTable({ query }: { query: string }) {
+const customers = await fetchFilteredCustomers(query)
   return (
     <div className="w-full">
-      <h1 className={`${lusitana.className} mb-8 text-xl md:text-2xl`}>
+      {/* <h1 className={`${lusitana.className} mb-8 text-xl md:text-2xl`}>
         Customers
-      </h1>
-      <Search placeholder="Search customers..." />
+      </h1>  */}
+      {/* /   <Search placeholder="Search customers..." /> */}
       <div className="mt-6 flow-root">
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
@@ -32,7 +26,7 @@ export default async function CustomersTable({
                         <div className="mb-2 flex items-center">
                           <div className="flex items-center gap-3">
                             <Image
-                              src={customer.image_url}
+                              src={customer.image_url || ep}
                               className="rounded-full"
                               alt={`${customer.name}'s profile picture`}
                               width={28}
@@ -85,7 +79,12 @@ export default async function CustomersTable({
 
                 <tbody className="divide-y divide-gray-200 text-gray-900">
                   {customers.map((customer) => (
-                    <tr key={customer.id} className="group">
+                  <tr
+                  key={customer.id}
+                  className="group cursor-pointer"
+                  
+                >
+                      
                       <td className="whitespace-nowrap bg-white py-5 pl-4 pr-3 text-sm text-black group-first-of-type:rounded-md group-last-of-type:rounded-md sm:pl-6">
                         <div className="flex items-center gap-3">
                           <Image
@@ -102,13 +101,63 @@ export default async function CustomersTable({
                         {customer.email}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {customer.total_invoices}
+                        <span
+                          style={{
+                            color:
+                              customer.total_invoices == 0 ? "blue" : "inherit",
+                          }}
+                        >
+                          {customer.total_invoices == 0
+                            ? "new"
+                            : customer.total_invoices}
+                        </span>
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {customer.total_pending}
+                        <span
+                          style={{
+                            color:
+                              customer.total_pending == "$0.00" &&
+                              customer.total_invoices == 0
+                                ? "blue"
+                                : customer.total_pending == "$0.00"
+                                ? "green"
+                                : "inherit",
+                          }}
+                        >
+                          {customer.total_pending == "$0.00" &&
+                          customer.total_invoices == 0
+                            ? "new"
+                            : customer.total_pending == "$0.00"
+                            ? "paid"
+                            : customer.total_pending}
+                        </span>{" "}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
-                        {customer.total_paid}
+                        <span
+                          style={{
+                            color:
+                              customer.total_paid == "$0.00" &&
+                              customer.total_invoices == 0
+                                ? "blue"
+                                : customer.total_paid == "$0.00"
+                                ? "red"
+                                : "inherit",
+                          }}
+                        >
+                          {customer.total_paid == "$0.00" &&
+                          customer.total_invoices == 0
+                            ? "new"
+                            : customer.total_paid == "$0.00"
+                            ? "pedding"
+                            : customer.total_paid}
+                        </span>
+                      </td>
+                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
+                        <div className="flex justify-end gap-3">
+                          <UpdateCustomer id={customer.id} />
+                          <DeleteCustomer id={customer.id} />
+                          <CustomerDetails id ={customer.id}/>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -118,6 +167,7 @@ export default async function CustomersTable({
           </div>
         </div>
       </div>
+    
     </div>
   );
 }

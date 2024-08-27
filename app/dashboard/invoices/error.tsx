@@ -1,6 +1,7 @@
 'use client';
  
-import { useRouter } from 'next/router';
+import { Router, useRouter } from 'next/router';
+import { hrtime } from 'process';
 import { useEffect } from 'react';
  
 export default function Error({
@@ -14,7 +15,6 @@ export default function Error({
     // Optionally log the error to an error reporting service
     console.error(error);
   }, [error]);
-  const router = useRouter();
   return (
     <main className="flex h-full flex-col items-center justify-center">
       <h2 className="text-center">Something went wrong!</h2>
@@ -27,7 +27,7 @@ export default function Error({
       >
         Try again
       </button>
-      <button type="button" onClick={() => router.back()}>
+      <button type="button">
       Go Back
     </button>
     </main>
